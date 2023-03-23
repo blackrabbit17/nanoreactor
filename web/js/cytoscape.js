@@ -4,7 +4,7 @@ function init_cy(nodes, edges) {
 
         layout: LAYOUT_ENGINES['fcose'],
 
-        style: DEFAULT_CYTOSCAPE_STYLE,
+        style: computed_style(),
 
         elements: {
             nodes: nodes,
@@ -13,6 +13,11 @@ function init_cy(nodes, edges) {
     });
 
     return cyto;
+}
+
+function update_graph_styles() {
+    cy.style(computed_style(selectedNode, selectedEdge));
+    //cy.layout(LAYOUT_ENGINES[currentLayout]).run();
 }
 
 function change_layout_engine(cyto, layout_engine) {

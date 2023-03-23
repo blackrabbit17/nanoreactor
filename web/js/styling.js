@@ -69,12 +69,15 @@ MUTED_RED = '#c04040'
 BURNT_ORANGE = '#b35d1e'
 MUSTARD_YELLOW = '#d8ca4c'
 OLIVE_GREEN = '#6b8e23'
-LIGHT_GRAY = '#d3d3d3'
+MID_GRAY = '#666'
+
+NODE_SELECTED_COLOR = '#fff';
+EDGE_SELECTED_COLOR = '#fff';
 
 DEFAULT_CYTOSCAPE_STYLE = [
     {
         'selector': 'node',
-        'style': {'background-color': LIGHT_GRAY, 'border-width': 3, 'border-color': 'dark gray', 'text-valign': 'center', 'text-halign': 'center', 'padding': '50%', 'width': 70, 'height': 70, 'text-outline-color': 'black', 'content': 'data(label)', 'font-size': 11}
+        'style': {'background-color': MID_GRAY, 'border-width': 3, 'border-color': 'dark gray', 'text-valign': 'center', 'text-halign': 'center', 'padding': '50%', 'width': 70, 'height': 70, 'text-outline-color': 'black', 'content': 'data(label)', 'font-size': 11}
     },
 
     {
@@ -114,3 +117,24 @@ DEFAULT_CYTOSCAPE_STYLE = [
         'style': {'line-color': MUTED_RED}
     },
 ]
+
+function computed_style(selectedNode, selecedEdge) {
+
+    var comp_style = [];
+
+    if(selectedNode) {
+        comp_style.push({
+            'selector': '[id = "' + selectedNode.id + '"]',
+            'style': {'background-color': NODE_SELECTED_COLOR}
+        });
+    }
+
+    if(selecedEdge) {
+        comp_style.push({
+            'selector': '[id = "' + selectedEdge.id + '"]',
+            'style': {'line-color': EDGE_SELECTED_COLOR}
+        });
+    }
+
+    return DEFAULT_CYTOSCAPE_STYLE.concat(comp_style);
+}

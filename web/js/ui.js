@@ -15,6 +15,9 @@ function on_node_select(node) {
 
     filter_nodes();
     filter_edges();
+
+    console.log(node_data);
+    update_graph_styles();
 }
 
 function on_edge_select(edge) {
@@ -25,6 +28,9 @@ function on_edge_select(edge) {
 
     filter_nodes();
     filter_edges();
+
+    console.log(edge_data);
+    update_graph_styles();
 }
 
 function cb_checked(evt) {
