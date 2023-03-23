@@ -69,7 +69,7 @@ MUTED_RED = '#c04040'
 BURNT_ORANGE = '#b35d1e'
 MUSTARD_YELLOW = '#d8ca4c'
 OLIVE_GREEN = '#6b8e23'
-MID_GRAY = '#666'
+MID_GRAY = 'rgb(64,65,77)'
 
 NODE_SELECTED_COLOR = '#fff';
 EDGE_SELECTED_COLOR = '#fff';
@@ -77,7 +77,7 @@ EDGE_SELECTED_COLOR = '#fff';
 DEFAULT_CYTOSCAPE_STYLE = [
     {
         'selector': 'node',
-        'style': {'background-color': MID_GRAY, 'border-width': 3, 'border-color': 'dark gray', 'text-valign': 'center', 'text-halign': 'center', 'padding': '50%', 'width': 70, 'height': 70, 'text-outline-color': 'black', 'content': 'data(label)', 'font-size': 11}
+        'style': {'background-color': MID_GRAY, 'border-width': 2, 'border-color': 'black', 'text-valign': 'center', 'text-halign': 'center', 'padding': '50%', 'width': 70, 'height': 70, 'text-outline-color': 'black', 'content': 'data(label)', 'font-size': 11}
     },
 
     {

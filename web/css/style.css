@@ -3,6 +3,28 @@
     font-size:22px;
 }
 
+.tag-header {
+    width: 100px;
+}
+
+.mol-preview {
+    width:90px;
+    height:90px;
+}
+
+.mol-preview-mini {
+    width:64px;
+    height:64px;
+}
+
+.mol-preview-card {
+    padding:20px;
+}
+
+.mol-preview-nodetable {
+    margin-top:20px;
+}
+
 .content {
     padding: 15px 10px;
 }

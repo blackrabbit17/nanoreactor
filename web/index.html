@@ -85,8 +85,45 @@
                     </div>
                 </div>
                 <div class="col s12 m4">
-                    <div class="card darken-1 bg-black rounded">
-                        XXX
+                    <div id="node-preview" class="card darken-1 bg-dark rounded mol-preview-card">
+                        <div class="row">
+                            <div class="col s6 m6">
+                                <img id="node-mol-image" class="mol-preview rounded" src="">
+                            </div>
+                        </div>
+
+                        <table id="mol-incoming" class="highlight mol-preview-nodetable">
+                        </table>
+
+                        <table id="mol-outgoing" class="highlight mol-preview-nodetable">
+                        </table>
+
+                    </div>
+
+                    <div id="edge-preview" class="card darken-1 bg-dark rounded mol-preview-card">
+                        <div class="row">
+                            <div class="col s6 m6">
+                                <h6>Source</h6>
+                                <img id="edge-src-image" class="mol-preview rounded" src="/img/0.png">
+                            </div>
+                            <div class="col s6 m6">
+                                <h6>Destination</h6>
+                                <img id="edge-dst-image" class="mol-preview rounded" src="/img/1.png">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12">
+                                <h6 id="edge-energy-forward">Energy Forward: 32.2</h6>
+                                <h6 id="edge-energy-backward">Energy Forward: 32.2</h6>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m12" id="edge-tag-container">
+                                <span class="new badge blue">4</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,6 +169,19 @@
             // Dataset
             var server_data;
 
+            // Data utilities
+            function get_incoming_edges(node_id) {
+                return dataset_edges.filter(function(edge) {
+                    return edge.data.target === node_id;
+                });
+            }
+
+            function get_outgoing_edges(node_id) {
+                return dataset_edges.filter(function(edge) {
+                    return edge.data.source === node_id;
+                });
+            }
+
             $(document).ready(function(){
                 $.getJSON('/reactions/', function(response) {
 
@@ -145,6 +195,7 @@
                         Object.values(response['Node1']),
                         Object.values(response['Node2']),
                         Object.values(response['Energy_forward (kcal/mol)']),
+                        Object.values(response['Energy_backward (kcal/mol)']),
                         Object.values(response['Piston']),
                         Object.values(response['MTD']),
                         Object.values(response['Gravity']),
@@ -154,12 +205,14 @@
 
                     cy = init_cy(dataset_nodes, dataset_edges);
 
-                    cy.on('click', 'node', function(event) {
-                        on_node_select(event.target);
-                    });
+                    cy.on('unselect', on_deselect);
 
-                    cy.on('click', 'edge', function(event) {
-                        on_edge_select(event.target);
+                    cy.on('select', function(event){
+                        if(event.target._private.group == 'nodes'){
+                            on_node_select(event.target);
+                        } else if(event.target._private.group == 'edges'){
+                            on_edge_select(event.target);
+                        }
                     });
                 });
             });

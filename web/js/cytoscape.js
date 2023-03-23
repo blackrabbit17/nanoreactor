@@ -46,7 +46,7 @@ function build_nodes(nodes) {
     return nodes;
 }
 
-function build_edges(sources, targets, weights, piston, mtd, gravity, smh, smh_g) {
+function build_edges(sources, targets, energy_forward, energy_backward, piston, mtd, gravity, smh, smh_g) {
     var edges = [];
     for (var i = 0; i < sources.length; i++) {
         edges.push(
@@ -55,7 +55,9 @@ function build_edges(sources, targets, weights, piston, mtd, gravity, smh, smh_g
                     'id': sources[i] + '-' + targets[i],
                     'source': sources[i],
                     'target': targets[i],
-                    'weight': weights[i],
+                    'weight': energy_forward[i],
+                    'energy_forward': energy_forward[i],
+                    'energy_backward': energy_backward[i],
                     'classes': edge_class_name(piston, mtd, gravity, smh, smh_g)
                 }
             }
