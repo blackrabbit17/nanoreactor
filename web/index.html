@@ -12,7 +12,7 @@
 
         <div class="content">
             <div class="row">
-                <div class="col s7 m7">
+                <div class="col s12 m7">
 
                     <div class="card darken-1 bg-dark rounded">
                         <div class="card-content white-text">
@@ -38,14 +38,33 @@
                             </label>
                         </div>
                     </div>
-
-                    <div class="card darken-1 bg-black rounded">
+                    <div class="card darken-1 bg-dark rounded">
                         <div class="card-content white-text">
-                            <div class="rounded" id="cy"></div>
+                            Layout Engine:
+                            <label class="le_engine_select">
+                                <input name="group_layout_engine" type="radio" value="fcose" checked />
+                                <span>fcose</span>
+                            </label>
+                            <label class="le_engine_select">
+                                <input name="group_layout_engine" type="radio" value="cola" />
+                                <span>cola</span>
+                            </label>
+                            <label class="le_engine_select">
+                                <input name="group_layout_engine" type="radio" value="breadthfirst" />
+                                <span>breadthfirst</span>
+                            </label>
+                            <label class="le_engine_select">
+                                <input name="group_layout_engine" type="radio" value="grid" />
+                                <span>grid</span>
+                            </label>
+                            <label class="le_engine_select">
+                                <input name="group_layout_engine" type="radio" value="circle" />
+                                <span>circle</span>
+                            </label>
                         </div>
                     </div>
                 </div>
-                <div class="col s5 m5">
+                <div class="col s12 m5">
                     <div class="card darken-1 bg-dark rounded">
                         <div class="card-content white-text">
                             <h5 class="graph-header">Energy threshold: kcal/mol</h5>
@@ -57,15 +76,119 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="card darken-1 bg-black rounded">
+                        <div class="card-content white-text">
+                            <div class="rounded" id="cy"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+        <script src="https://unpkg.com/webcola/WebCola/cola.min.js"></script>`,
+        <script src="https://cdn.jsdelivr.net/npm/cytoscape-cola@2.4.0/cytoscape-cola.min.js"></script>
+
+        <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+        <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+        <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
+
+        <script src="js/styling.js"></script>
+
         <script type="text/javascript">
+
+            function init_cy(nodes, edges) {
+                var cy = window.cy = cytoscape({
+					container: document.getElementById('cy'),
+
+					layout: LAYOUT_ENGINES['fcose'],
+
+					style: [
+						{
+							selector: 'node',
+							style: {
+								'background-color': '#ea8a31'
+							}
+						},
+
+						{
+							selector: 'edge',
+							style: {
+								'curve-style': 'haystack',
+								'haystack-radius': 0,
+								'width': 3,
+								'opacity': 0.666,
+								'line-color': '#fcc694'
+							}
+						}
+					],
+                    elements: {
+                        nodes: nodes,
+                        edges: edges
+                    }
+				});
+            }
+
+            function build_nodes(nodes) {
+
+                // Unique
+                const unique_nodes = nodes.filter((value, index, self) => {
+                    return self.indexOf(value) === index;
+                });
+
+                // Build cytoscape nodes
+                var nodes = [];
+                for (var i = 0; i < unique_nodes.length; i++) {
+                    nodes.push(
+                        {data :
+                            {
+                                'id': unique_nodes[i],
+                                'label': unique_nodes[i]
+                            }
+                        }
+                    );
+                }
+
+                return nodes;
+            }
+
+            function build_edges(sources, targets, weights) {
+                var edges = [];
+                for (var i = 0; i < sources.length; i++) {
+                    edges.push(
+                        {data :
+                            {
+                                'source': sources[i],
+                                'target': targets[i],
+                                'weight': weights[i]
+                            }
+                        }
+                    );
+                }
+
+                return edges;
+            }
+
             $(document).ready(function(){
-                $.getJSON('/reactions/', function(response){
+                $.getJSON('/reactions/', function(response) {
+
                     console.log(response);
+
+                    var all_nodes = Object.values(response['Node1']).concat(Object.values(response['Node2']));
+
+                    var cytoscape_nodes = build_nodes(all_nodes);
+                    var cytoscape_edges = build_edges(
+                        Object.values(response['Node1']),
+                        Object.values(response['Node2']),
+                        Object.values(response['Energy_forward (kcal/mol)'])
+                    );
+
+                    init_cy(cytoscape_nodes, cytoscape_edges);
                 });
             });
         </script>

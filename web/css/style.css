@@ -66,3 +66,11 @@
     margin-right:10px;
     border-right: 1px solid  rgb(52, 53, 64);
 }
+
+.le_engine_select {
+    margin-right:20px;
+}
+
+.le_engine_select span {
+    padding-left: 25px !important;
+}
