@@ -103,6 +103,8 @@ def create_className(m, s, p):
     if p == 1:
         cname += 'Piston'
     return cname
+
+
 defaultstyle=[
     {
         'selector': 'node',
