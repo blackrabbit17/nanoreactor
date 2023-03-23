@@ -17,7 +17,6 @@ function init_cy(nodes, edges) {
 
 function update_graph_styles() {
     cy.style(computed_style(selectedNode, selectedEdge));
-    //cy.layout(LAYOUT_ENGINES[currentLayout]).run();
 }
 
 function change_layout_engine(cyto, layout_engine) {
