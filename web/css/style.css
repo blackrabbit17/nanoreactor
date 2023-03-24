@@ -12,6 +12,14 @@
     height:90px;
 }
 
+.mol-badge {
+    margin:4px;
+}
+
+.mol-badge::after {
+    content: none !important;
+}
+
 .mol-preview-mini {
     width:64px;
     height:64px;

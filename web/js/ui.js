@@ -139,5 +139,22 @@ function render_edge_sidebar() {
     console.log(selectedEdge);
     $('#edge-src-image').attr('src', '/img/' + selectedEdge.source + '.png');
     $('#edge-dst-image').attr('src', '/img/' + selectedEdge.target + '.png');
+
+    $('#edge-energy-forward').html(
+        '<small>Energy Forward:</small> ' + selectedEdge.energy_forward + ' kcal/mol'
+    );
+
+    $('#edge-energy-backward').html(
+        '<small>Energy Backward:</small> ' + selectedEdge.energy_backward + ' kcal/mol'
+    );
+
+    tags = selectedEdge.classes.split(' ');
+    var tag_html = '';
+    for(var i = 0; i < tags.length; i++) {
+        if(tags[i] != '') {
+            tag_html += '<span class="mol-badge new badge blue">'+tags[i]+'</span>';
+        }
+    };
+    $('#edge-tag-container').html(tag_html);
     $('#edge-preview').show();
 }
