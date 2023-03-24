@@ -1,4 +1,5 @@
 
+![Preview](https://raw.githubusercontent.com/blackrabbit17/nanoreactor/main/preview.gif)
 
 ## Create a python virtual env and install dependencies
 ```
@@ -13,3 +14,4 @@ pip install -r requirements.txt
 ```
 
 ### Go to http://localhost:8000/ in your browser
+
