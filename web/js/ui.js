@@ -4,7 +4,9 @@ function on_layout_engine_change(event) {
 }
 
 function on_energy_threshold_change(event) {
-    console.log(event.value);
+    energy_threshold = event.value;
+    $('#energy-threshold-label').html(event.value + ' kcal/mol');
+    filter_edges();
 }
 
 function on_node_select(node) {
@@ -130,13 +132,9 @@ function render_node_sidebar() {
     }
     html += '</tbody>';
     $('#mol-outgoing').html(html);
-
-    console.log(outgoing);
-    //console.log(outgoing);
 }
 
 function render_edge_sidebar() {
-    console.log(selectedEdge);
     $('#edge-src-image').attr('src', '/img/' + selectedEdge.source + '.png');
     $('#edge-dst-image').attr('src', '/img/' + selectedEdge.target + '.png');
 

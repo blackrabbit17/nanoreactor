@@ -58,7 +58,7 @@ function build_edges(sources, targets, energy_forward, energy_backward, piston, 
                     'weight': energy_forward[i],
                     'energy_forward': energy_forward[i],
                     'energy_backward': energy_backward[i],
-                    'classes': edge_class_name(piston, mtd, gravity, smh, smh_g)
+                    'classes': edge_class_name(piston[i], mtd[i], gravity[i], smh[i], smh_g[i])
                 }
             }
         );
@@ -73,6 +73,10 @@ function filter_nodes() {
 
 function filter_edges() {
     cytoscape_edges = [];
+
+    if(energy_threshold !== null && energy_threshold !== undefined && energy_threshold > 0) {
+
+    }
 
     for (var i = 0; i < dataset_edges.length; i++) {
 
@@ -96,6 +100,15 @@ function filter_edges() {
             cytoscape_edges.push(dataset_edges[i]);
         }
     }
+
+    var energy_filtered = [];
+    for (var i = 0; i < cytoscape_edges.length; i++) {
+        if(cytoscape_edges[i].data.energy_forward >= energy_threshold) {
+            energy_filtered.push(cytoscape_edges[i]);
+        }
+    }
+
+    cytoscape_edges = energy_filtered;
 
     cy.edges().remove();
     cy.add(cytoscape_edges);

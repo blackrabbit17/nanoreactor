@@ -67,11 +67,14 @@
                 <div class="col s12 m4">
                     <div class="card darken-1 bg-dark rounded">
                         <div class="card-content white-text">
-                            <h5 class="graph-header">Energy threshold: kcal/mol</h5>
+                            <h5 class="graph-header">Energy threshold</h5>
                             <p class="range-field">
-                                <input oninput="on_energy_threshold_change(this)" type="range" id="energy_threshold" min="0" max="100" />
+                                <input oninput="on_energy_threshold_change(this)" type="range" id="energy_threshold" min="0" max="200" value="0" />
                             </p>
 
+                            <div>
+                                <span id="energy-threshold-label">0 kcal/mol</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,6 +159,8 @@
             var gravityIncluded = true;
             var smhIncluded = true;
             var smh_gIncluded = true;
+
+            var energy_threshold = null;
 
             var selectedNode = null;
             var selectedEdge = null;

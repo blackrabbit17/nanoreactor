@@ -3,6 +3,14 @@
     font-size:22px;
 }
 
+#edge-preview {
+    display:none;
+}
+
+#node-preview {
+    display:none;
+}
+
 .tag-header {
     width: 100px;
 }
