@@ -94,7 +94,7 @@ function hide_sidebars() {
 }
 
 function render_node_sidebar() {
-    $('#node-mol-image').attr('src', '/img/' + selectedNode.id + '.png');
+    $('#node-mol-image').attr('src', 'img/' + selectedNode.id + '.png');
     $('#node-preview').show();
 
     var incoming = get_incoming_edges(selectedNode.id);
@@ -107,7 +107,7 @@ function render_node_sidebar() {
     html += '<tbody>';
     for (var i = 0; i < incoming.length; i++) {
         html += '<tr>';
-        html += '<td><img class="mol-preview-mini rounded" src="/img/'+ incoming[i].data.source + '.png" /></td>';
+        html += '<td><img class="mol-preview-mini rounded" src="img/'+ incoming[i].data.source + '.png" /></td>';
         html += '<td>' +
         '⥤ ' +  incoming[i].data.energy_forward + ' <br/><br/>'+
         '⥢ ' +  incoming[i].data.energy_backward +
@@ -122,7 +122,7 @@ function render_node_sidebar() {
     html += '<tbody>';
     for (var i = 0; i < outgoing.length; i++) {
         html += '<tr>';
-        html += '<td><img class="mol-preview-mini rounded" src="/img/'+ outgoing[i].data.target + '.png" /></td>';
+        html += '<td><img class="mol-preview-mini rounded" src="img/'+ outgoing[i].data.target + '.png" /></td>';
         html += '<td>' +
         '⥤ ' +  outgoing[i].data.energy_forward + ' <br/><br/>'+
         '⥢ ' +  outgoing[i].data.energy_backward +
@@ -135,8 +135,8 @@ function render_node_sidebar() {
 }
 
 function render_edge_sidebar() {
-    $('#edge-src-image').attr('src', '/img/' + selectedEdge.source + '.png');
-    $('#edge-dst-image').attr('src', '/img/' + selectedEdge.target + '.png');
+    $('#edge-src-image').attr('src', 'img/' + selectedEdge.source + '.png');
+    $('#edge-dst-image').attr('src', 'img/' + selectedEdge.target + '.png');
 
     $('#edge-energy-forward').html(
         '<small>Energy Forward:</small> ' + selectedEdge.energy_forward + ' kcal/mol'
