@@ -21,8 +21,8 @@ def root():
     return Response(content=data, media_type="text/html")
 
 
-@app.get("/reactions/")
+@app.get("/data/all_tools_graph_final.json")
 def reactions():
-    df = pd.read_csv("data/all_tools_graph_final.csv")
+    content = open('data/all_tools_graph_final.json', 'r').read()
 
-    return Response(content=df.to_json(), media_type="application/json")
+    return Response(content=content, media_type="application/json")
