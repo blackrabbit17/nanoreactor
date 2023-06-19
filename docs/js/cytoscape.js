@@ -71,12 +71,43 @@ function filter_nodes() {
 
 }
 
+function dfs_filter_edges(cytoscape_edges, cytoscape_nodes, energy_threshold, rootId) {
+    var visited = new Set();
+    var energy_filtered = new Set();
+
+    function dfs(node) {
+        var connectedEdges = cytoscape_edges.filter(edge => edge.data.source == node._private.data.id);
+
+        for (var edge of connectedEdges) {
+            if(edge.data.energy_forward < energy_threshold) {
+                if(!energy_filtered.has(edge)) {
+                    energy_filtered.add(edge);
+                }
+
+                var nextNode = edge.data.target;
+                if (!visited.has(nextNode)) {
+                    visited.add(nextNode);
+                    dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
+                }
+            }
+        }
+    }
+
+    var rootNode = cytoscape_nodes.filter(node => node._private.data.id == rootId)[0];
+    visited.add(rootNode.data.id);
+    dfs(rootNode);
+
+    return Array.from(energy_filtered);
+}
+
+
 function filter_edges() {
     cytoscape_edges = [];
 
-    if(energy_threshold !== null && energy_threshold !== undefined && energy_threshold > 0) {
-
-    }
+    /* 
+        Check which filters are enabled, if the checkbox in the UI is clicked
+        (boolean variable pistonIncluded) then add it to 'cytoscape_edges' variable
+    */
 
     for (var i = 0; i < dataset_edges.length; i++) {
 
@@ -101,12 +132,7 @@ function filter_edges() {
         }
     }
 
-    var energy_filtered = [];
-    for (var i = 0; i < cytoscape_edges.length; i++) {
-        if(cytoscape_edges[i].data.energy_forward >= energy_threshold) {
-            energy_filtered.push(cytoscape_edges[i]);
-        }
-    }
+    var energy_filtered = dfs_filter_edges(cytoscape_edges, cy.nodes(), energy_threshold, '0');
 
     cytoscape_edges = energy_filtered;
 
