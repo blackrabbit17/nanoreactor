@@ -76,13 +76,14 @@ function dfs_filter_edges(cytoscape_edges, cytoscape_nodes, energy_threshold, ro
     var energy_filtered = new Set();
 
     function dfs(node) {
-        var connectedEdges = cytoscape_edges.filter(edge => edge.data.source == node._private.data.id);
-
+        var connectedEdges = cytoscape_edges.filter(edge => ((edge.data.source == node._private.data.id) || (edge.data.target == node._private.data.id)));
         for (var edge of connectedEdges) {
+          if (edge.data.source == node._private.data.id) {
             if(edge.data.energy_forward < energy_threshold) {
                 if(!energy_filtered.has(edge)) {
                     energy_filtered.add(edge);
                 }
+              
 
                 var nextNode = edge.data.target;
                 if (!visited.has(nextNode)) {
@@ -90,6 +91,21 @@ function dfs_filter_edges(cytoscape_edges, cytoscape_nodes, energy_threshold, ro
                     dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
                 }
             }
+          }
+          else if (edge.data.target == node._private.data.id) {
+            if(edge.data.energy_backward < energy_threshold) {
+                if(!energy_filtered.has(edge)) {
+                    energy_filtered.add(edge);
+                }
+
+                var nextNode = edge.data.source;
+                if (!visited.has(nextNode)) {
+                    visited.add(nextNode);
+                    dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
+                }
+            }
+          }
+    
         }
     }
 
