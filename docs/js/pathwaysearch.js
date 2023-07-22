@@ -17,9 +17,11 @@ function reset_pathway_search() {
     $('#ps_btn').html('PATHWAY SEARCH');
     $('#ps_source_mol_img').hide();
     $('#ps_destination_mol_img').hide();
+    $('#ps_no_pathway').hide();
 
     rebuild_core_data();
     filter_edges();
+    update_graph_styles();
 }
 
 function start_pathway_search() {
@@ -70,5 +72,105 @@ function did_select_dest(node_data) {
     $('#ps_destination_mol_img').attr('src', 'img/' + node_data.id + '.png');
     $('#ps_destination_mol_img').show();
 
-    //cy.edges().remove();
+    var nn_nodes = [];
+    var nn_edges = [];
+
+    dataset_nodes.forEach(function(node) {
+        nn_nodes.push(node.data.id);
+    });
+
+    cytoscape_edges.forEach(function(edge) {
+        nn_edges.push({id: edge.data.id, from: edge.data.source, to: edge.data.target, weight: edge.data.energy_forward});
+    });
+
+    var found_path = findMinWeightPath(nn_nodes, nn_edges, ps_source.id, ps_dest.id);
+
+    if(found_path === undefined) {
+        $('#ps_no_pathway').show();
+        return;
+    }
+
+    if(found_path.length > 0) {
+
+        var path_edges = [];
+
+        cytoscape_edges.forEach(function(edge) {
+            if(found_path.includes(edge.data.id)) {
+                path_edges.push(edge);
+            }
+        });
+
+        cy.edges().remove();
+        cy.add(path_edges);
+    }
 }
+
+class PriorityQueue {
+    constructor() {
+        this.values = [];
+    }
+
+    enqueue(val, priority) {
+        this.values.push({val, priority});
+        this.sort();
+    };
+
+    dequeue() {
+        return this.values.shift();
+    }
+
+    sort() {
+        this.values.sort((a, b) => a.priority - b.priority);
+    };
+}
+
+  function findMinWeightPath(nodes, edges, startNode, endNode) {
+    const distances = {};
+    const previous = {};
+    const pq = new PriorityQueue();
+    const edgeLookup = {};
+
+    // Reset distances and previous
+    nodes.forEach(node => {
+      distances[node] = node === startNode ? 0 : Infinity;
+      previous[node] = null;
+    });
+
+    // Reset edgeLookup
+    edges.forEach(edge => {
+      edgeLookup[`${edge.from}-${edge.to}`] = edge;
+    });
+
+    pq.enqueue(startNode, 0);
+
+    while(pq.values.length) {
+      let dequeuedNode = pq.dequeue().val;
+      if(dequeuedNode === endNode) {
+        let path = [];
+        let current = endNode;
+
+        while(current !== startNode) {
+          let prevNode = previous[current];
+          let edgeKey = `${prevNode}-${current}`;
+          path.push(edgeLookup[edgeKey].id);
+          current = prevNode;
+        }
+
+        return path.reverse();
+      }
+
+      if(dequeuedNode || distances[dequeuedNode] !== Infinity) {
+        edges.forEach(edge => {
+          if(edge.from === dequeuedNode) {
+            let candidate = Math.max(distances[dequeuedNode], edge.weight);
+            let nextNode = edge.to;
+            if(candidate < distances[nextNode]) {
+              distances[nextNode] = candidate;
+              previous[nextNode] = dequeuedNode;
+              pq.enqueue(nextNode, candidate);
+            }
+          }
+        });
+      }
+    }
+  }

@@ -62,11 +62,15 @@ function on_node_select(node) {
 function on_edge_select(edge) {
     var edge_data = edge._private.data; // Dont like accessing private members here, but no choice
 
+    if(ps_source_select_active || ps_dest_select_active) {
+        reset_pathway_search();
+    }
+
     selectedNode = null;
     selectedEdge = edge_data;
 
-    filter_nodes();
-    filter_edges();
+    //filter_nodes();
+    //filter_edges();
 
     update_graph_styles();
 
