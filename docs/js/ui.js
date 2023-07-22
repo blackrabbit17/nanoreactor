@@ -1,16 +1,51 @@
 
+function on_toggle_proportional_thickness(event) {
+    proportional_thickness = cb_checked(event);
+    filter_edges();
+    update_graph_styles();
+}
+
+function on_toggle_fw_bk(event) {
+    show_fw_bk = cb_checked(event);
+
+    rebuild_core_data();
+
+    filter_edges();
+    update_graph_styles();
+}
+
+function on_toggle_pathway_coloring(event) {
+    pathway_coloring = cb_checked(event);
+    filter_edges();
+    update_graph_styles();
+}
+
 function on_layout_engine_change(event) {
     change_layout_engine(cy, event.value);
+    update_graph_styles();
 }
 
 function on_energy_threshold_change(event) {
     energy_threshold = event.value;
     $('#energy-threshold-label').html(event.value + ' kcal/mol');
     filter_edges();
+    update_graph_styles();
 }
 
 function on_node_select(node) {
     var node_data = node._private.data; // Dont like accessing private members here, but no choice
+
+    // First we have to check if pathway search is running, because if so, then a node selection
+    // has special meaning, see pathwaysearch.js for more details
+    if (ps_source_select_active) {
+        did_select_source(node_data);
+        return;
+    }
+
+    if (ps_dest_select_active) {
+        did_select_dest(node_data);
+        return;
+    }
 
     selectedNode = node_data;
     selectedEdge = null;
@@ -27,11 +62,15 @@ function on_node_select(node) {
 function on_edge_select(edge) {
     var edge_data = edge._private.data; // Dont like accessing private members here, but no choice
 
+    if(ps_source_select_active || ps_dest_select_active) {
+        reset_pathway_search();
+    }
+
     selectedNode = null;
     selectedEdge = edge_data;
 
-    filter_nodes();
-    filter_edges();
+    //filter_nodes();
+    //filter_edges();
 
     update_graph_styles();
 
@@ -62,26 +101,31 @@ function cb_checked(evt) {
 function on_toggle_piston(event) {
     pistonIncluded = cb_checked(event);
     filter_edges();
+    update_graph_styles();
 }
 
 function on_toggle_mtd(event) {
     mtdIncluded = cb_checked(event);
     filter_edges();
+    update_graph_styles();
 }
 
 function on_toggle_gravity(event) {
     gravityIncluded = cb_checked(event);
     filter_edges();
+    update_graph_styles();
 }
 
 function on_toggle_smh(event) {
     smhIncluded = cb_checked(event);
     filter_edges();
+    update_graph_styles();
 }
 
 function on_toggle_smh_g(event) {
     smh_gIncluded = cb_checked(event);
     filter_edges();
+    update_graph_styles();
 }
 
 function hide_sidebars() {
@@ -107,11 +151,11 @@ function render_node_sidebar() {
     html += '<tbody>';
     for (var i = 0; i < incoming.length; i++) {
         html += '<tr>';
-        html += '<td><img class="mol-preview-mini rounded" src="img/'+ incoming[i].data.source + '.png" /></td>';
+        html += '<td><img class="mol-preview-mini rounded" src="img/' + incoming[i].data.source + '.png" /></td>';
         html += '<td>' +
-        '⥤ ' +  incoming[i].data.energy_forward + ' <br/><br/>'+
-        '⥢ ' +  incoming[i].data.energy_backward +
-        '</td>';
+            '⥤ ' + incoming[i].data.energy_forward + ' <br/><br/>' +
+            '⥢ ' + incoming[i].data.energy_backward +
+            '</td>';
         html += '<td><small>' + incoming[i].data.classes + '</small></td>';
         html += '</tr>';
     }
@@ -122,11 +166,11 @@ function render_node_sidebar() {
     html += '<tbody>';
     for (var i = 0; i < outgoing.length; i++) {
         html += '<tr>';
-        html += '<td><img class="mol-preview-mini rounded" src="img/'+ outgoing[i].data.target + '.png" /></td>';
+        html += '<td><img class="mol-preview-mini rounded" src="img/' + outgoing[i].data.target + '.png" /></td>';
         html += '<td>' +
-        '⥤ ' +  outgoing[i].data.energy_forward + ' <br/><br/>'+
-        '⥢ ' +  outgoing[i].data.energy_backward +
-        '</td>';
+            '⥤ ' + outgoing[i].data.energy_forward + ' <br/><br/>' +
+            '⥢ ' + outgoing[i].data.energy_backward +
+            '</td>';
         html += '<td><small>' + outgoing[i].data.classes + '</small></td>';
         html += '</tr>';
     }
@@ -148,9 +192,9 @@ function render_edge_sidebar() {
 
     tags = selectedEdge.classes.split(' ');
     var tag_html = '';
-    for(var i = 0; i < tags.length; i++) {
-        if(tags[i] != '') {
-            tag_html += '<span class="mol-badge new badge blue">'+tags[i]+'</span>';
+    for (var i = 0; i < tags.length; i++) {
+        if (tags[i] != '') {
+            tag_html += '<span class="mol-badge new badge blue">' + tags[i] + '</span>';
         }
     };
     $('#edge-tag-container').html(tag_html);

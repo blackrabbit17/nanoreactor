@@ -112,3 +112,36 @@
 .le_engine_select span {
     padding-left: 25px !important;
 }
+
+.blob {
+	background: #26a69a;
+	border-radius: 5%;
+	height: 90px;
+	width: 90px;
+    opacity: 0.2;
+	box-shadow: 0 0 0 0 #26a69a(0, 0, 0, 1);
+	transform: scale(1);
+	animation: pulse 2s infinite;
+    margin:0 auto;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.90);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.90);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+
+#ps_source_header {
+    text-align: center;
+}
