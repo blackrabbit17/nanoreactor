@@ -76,14 +76,17 @@ function did_select_dest(node_data) {
     var nn_edges = [];
 
     dataset_nodes.forEach(function(node) {
-        nn_nodes.push(node.data.id);
+        nn_nodes.push(node.data.id.toString());
     });
 
-    cytoscape_edges.forEach(function(edge) {
+    dataset_edges.forEach(function(edge) {
         nn_edges.push({id: edge.data.id, from: edge.data.source, to: edge.data.target, weight: edge.data.energy_forward});
     });
 
     var found_path = findMinWeightPath(nn_nodes, nn_edges, ps_source.id, ps_dest.id);
+
+    ps_dest_select_active = false;
+    ps_source_select_active = false;
 
     if(found_path === undefined) {
         $('#ps_no_pathway').show();
@@ -94,7 +97,7 @@ function did_select_dest(node_data) {
 
         var path_edges = [];
 
-        cytoscape_edges.forEach(function(edge) {
+        dataset_edges.forEach(function(edge) {
             if(found_path.includes(edge.data.id)) {
                 path_edges.push(edge);
             }
@@ -125,10 +128,10 @@ class PriorityQueue {
 }
 
   function findMinWeightPath(nodes, edges, startNode, endNode) {
-    const distances = {};
-    const previous = {};
-    const pq = new PriorityQueue();
-    const edgeLookup = {};
+    var distances = {};
+    var previous = {};
+    var pq = new PriorityQueue();
+    var edgeLookup = {};
 
     // Reset distances and previous
     nodes.forEach(node => {
@@ -144,14 +147,14 @@ class PriorityQueue {
     pq.enqueue(startNode, 0);
 
     while(pq.values.length) {
-      let dequeuedNode = pq.dequeue().val;
+      var dequeuedNode = pq.dequeue().val;
       if(dequeuedNode === endNode) {
-        let path = [];
-        let current = endNode;
+        var path = [];
+        var current = endNode;
 
         while(current !== startNode) {
-          let prevNode = previous[current];
-          let edgeKey = `${prevNode}-${current}`;
+          var prevNode = previous[current];
+          var edgeKey = `${prevNode}-${current}`;
           path.push(edgeLookup[edgeKey].id);
           current = prevNode;
         }
@@ -162,8 +165,8 @@ class PriorityQueue {
       if(dequeuedNode || distances[dequeuedNode] !== Infinity) {
         edges.forEach(edge => {
           if(edge.from === dequeuedNode) {
-            let candidate = Math.max(distances[dequeuedNode], edge.weight);
-            let nextNode = edge.to;
+            var candidate = Math.max(distances[dequeuedNode], edge.weight);
+            var nextNode = edge.to;
             if(candidate < distances[nextNode]) {
               distances[nextNode] = candidate;
               previous[nextNode] = dequeuedNode;
