@@ -15,6 +15,11 @@ function reset_pathway_search() {
     $('#ps_source').hide();
     $('#ps_destination').hide();
     $('#ps_btn').html('PATHWAY SEARCH');
+    $('#ps_source_mol_img').hide();
+    $('#ps_destination_mol_img').hide();
+
+    rebuild_core_data();
+    filter_edges();
 }
 
 function start_pathway_search() {
@@ -49,6 +54,9 @@ function did_select_source(node_data) {
     $('#ps_destination').show();
     $('#ps_destination_header').html('Select destination molecule');
     $('#ps_destination_busy').show();
+
+    $('#ps_source_mol_img').attr('src', 'img/' + node_data.id + '.png');
+    $('#ps_source_mol_img').show();
 }
 
 function did_select_dest(node_data) {
@@ -59,4 +67,8 @@ function did_select_dest(node_data) {
     $('#ps_destination_header').html('Destination Molecule');
 
     $('#ps_btn').html('RESET');
+    $('#ps_destination_mol_img').attr('src', 'img/' + node_data.id + '.png');
+    $('#ps_destination_mol_img').show();
+
+    //cy.edges().remove();
 }
