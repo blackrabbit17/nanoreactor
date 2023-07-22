@@ -1,226 +1,254 @@
 <html lang="en" class="bg-light">
-    <head>
-        <title>Nanoreactor</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
-    <body class="txt-theme">
-        <div class="nr-navbar bg-dark line bb1 header-bar">
-            <i class="material-icons dp48 header-logo">leak_add</i><span class="title">Stanford Nanoreactor</span>
-        </div>
 
-        <div class="content">
-            <div class="row">
-                <div class="col s12 m8">
+<head>
+    <title>Nanoreactor</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+</head>
 
-                    <div class="card darken-1 bg-dark rounded">
-                        <div class="card-content white-text">
-                            <label class="force-option">
-                                <input onchange="on_toggle_piston(this)" type="checkbox" checked="checked" />
-                                <span>Piston</span>
-                            </label>
-                            <label class="force-option">
-                                <input onchange="on_toggle_mtd(this)" type="checkbox" checked="checked" />
-                                <span>MTD</span>
-                            </label>
-                            <label class="force-option">
-                                <input onchange="on_toggle_gravity(this)" type="checkbox" checked="checked" />
-                                <span>Gravity</span>
-                            </label>
-                            <label class="force-option">
-                                <input onchange="on_toggle_smh(this)" type="checkbox" checked="checked" />
-                                <span>SMH</span>
-                            </label>
-                            <label class="force-option">
-                                <input onchange="on_toggle_smh_g(this)" type="checkbox" checked="checked" />
-                                <span>SMH-g</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="card darken-1 bg-dark rounded">
-                        <div class="card-content white-text">
-                            Layout Engine:
-                            <label class="le_engine_select">
-                                <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio" value="fcose" checked />
-                                <span>fcose</span>
-                            </label>
-                            <label class="le_engine_select">
-                                <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio" value="cola" />
-                                <span>cola</span>
-                            </label>
-                            <label class="le_engine_select">
-                                <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio" value="breadthfirst" />
-                                <span>breadthfirst</span>
-                            </label>
-                            <label class="le_engine_select">
-                                <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio" value="grid" />
-                                <span>grid</span>
-                            </label>
-                            <label class="le_engine_select">
-                                <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio" value="circle" />
-                                <span>circle</span>
-                            </label>
-                        </div>
+<body class="txt-theme">
+    <div class="nr-navbar bg-dark line bb1 header-bar">
+        <i class="material-icons dp48 header-logo">leak_add</i><span class="title">Stanford Nanoreactor</span>
+    </div>
+
+    <div class="content">
+        <div class="row" style="margin-bottom: 0;">
+            <div class="col s12 m8">
+
+                <div class="card darken-1 bg-dark rounded">
+                    <div class="card-content white-text">
+                        <label class="force-option">
+                            <input onchange="on_toggle_piston(this)" type="checkbox" checked="checked" />
+                            <span>Piston</span>
+                        </label>
+                        <label class="force-option">
+                            <input onchange="on_toggle_mtd(this)" type="checkbox" checked="checked" />
+                            <span>MTD</span>
+                        </label>
+                        <label class="force-option">
+                            <input onchange="on_toggle_gravity(this)" type="checkbox" checked="checked" />
+                            <span>Gravity</span>
+                        </label>
+                        <label class="force-option">
+                            <input onchange="on_toggle_smh(this)" type="checkbox" checked="checked" />
+                            <span>SMH</span>
+                        </label>
+                        <label class="force-option">
+                            <input onchange="on_toggle_smh_g(this)" type="checkbox" checked="checked" />
+                            <span>SMH-g</span>
+                        </label>
                     </div>
                 </div>
-                <div class="col s12 m4">
-                    <div class="card darken-1 bg-dark rounded">
-                        <div class="card-content white-text">
-                            <h5 class="graph-header">Energy threshold</h5>
-                            <p class="range-field">
-                                <input oninput="on_energy_threshold_change(this)" type="range" id="energy_threshold" min="0" max="200" value="200" />
-                            </p>
-
-                            <div>
-                                <span id="energy-threshold-label">200 kcal/mol</span>
-                            </div>
-                        </div>
+                <div class="card darken-1 bg-dark rounded">
+                    <div class="card-content white-text">
+                        Layout Engine:
+                        <label class="le_engine_select">
+                            <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio"
+                                value="fcose" checked />
+                            <span>fcose</span>
+                        </label>
+                        <label class="le_engine_select">
+                            <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio"
+                                value="cola" />
+                            <span>cola</span>
+                        </label>
+                        <label class="le_engine_select">
+                            <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio"
+                                value="breadthfirst" />
+                            <span>breadthfirst</span>
+                        </label>
+                        <label class="le_engine_select">
+                            <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio"
+                                value="grid" />
+                            <span>grid</span>
+                        </label>
+                        <label class="le_engine_select">
+                            <input onchange="on_layout_engine_change(this)" name="group_layout_engine" type="radio"
+                                value="circle" />
+                            <span>circle</span>
+                        </label>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col s12 m8">
-                    <div class="card darken-1 bg-black rounded">
-                        <div class="card-content white-text">
-                            <div class="rounded" id="cy"></div>
+            <div class="col s12 m4">
+                <div class="card darken-1 bg-dark rounded">
+                    <div class="card-content white-text">
+                        <h5 class="graph-header">Energy threshold - <span id="energy-threshold-label">200
+                                kcal/mol</span></h5>
+                        <p class="range-field">
+                            <input oninput="on_energy_threshold_change(this)" type="range" id="energy_threshold" min="0"
+                                max="200" value="200" />
+                        </p>
+                        <div>
+                            <label class="force-option" style="width:100%;">
+                                <input onchange="on_toggle_pathway_coloring(this)" type="checkbox" checked="checked" />
+                                <span>Pathway coloring</span>
+                            </label>
                         </div>
-                    </div>
-                </div>
-                <div class="col s12 m4">
-                    <div id="node-preview" class="card darken-1 bg-dark rounded mol-preview-card">
-                        <div class="row">
-                            <div class="col s6 m6">
-                                <img id="node-mol-image" class="mol-preview rounded" src="">
-                            </div>
+                        <div>
+                            <label class="force-option" style="width:100%; margin-top:10px;">
+                                <input onchange="on_toggle_proportional_thickness(this)" type="checkbox" />
+                                <span>Proportional pathway thickness</span>
+                            </label>
                         </div>
-
-                        <table id="mol-incoming" class="highlight mol-preview-nodetable">
-                        </table>
-
-                        <table id="mol-outgoing" class="highlight mol-preview-nodetable">
-                        </table>
-
-                    </div>
-
-                    <div id="edge-preview" class="card darken-1 bg-dark rounded mol-preview-card">
-                        <div class="row">
-                            <div class="col s6 m6">
-                                <h6>Source</h6>
-                                <img id="edge-src-image" class="mol-preview rounded" src="">
-                            </div>
-                            <div class="col s6 m6">
-                                <h6>Destination</h6>
-                                <img id="edge-dst-image" class="mol-preview rounded" src="">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col s12 m12">
-                                <h6 id="edge-energy-forward"></h6>
-                                <h6 id="edge-energy-backward"></h6>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col s12 m12" id="edge-tag-container">
-
-                            </div>
+                        <div style="margin-top:10px;">
+                            <label class="force-option" style="width:100%;">
+                                <input onchange="on_toggle_fw_bk(this)" type="checkbox" />
+                                <span>Show both forwards and backwards</span>
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <div class="row">
+            <div class="col s12 m8">
+                <div class="card darken-1 bg-black rounded">
+                    <div class="card-content white-text">
+                        <div class="rounded" id="cy"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div id="node-preview" class="card darken-1 bg-dark rounded mol-preview-card">
+                    <div class="row">
+                        <div class="col s6 m6">
+                            <img id="node-mol-image" class="mol-preview rounded" src="">
+                        </div>
+                    </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
-        <script src="https://unpkg.com/webcola/WebCola/cola.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/cytoscape-cola@2.4.0/cytoscape-cola.min.js"></script>
+                    <table id="mol-incoming" class="highlight mol-preview-nodetable">
+                    </table>
 
-        <script src="https://unpkg.com/layout-base/layout-base.js"></script>
-        <script src="https://unpkg.com/cose-base/cose-base.js"></script>
-        <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
+                    <table id="mol-outgoing" class="highlight mol-preview-nodetable">
+                    </table>
 
-        <!-- Order of these includes is important -->
-        <script src="js/styling.js"></script>
-        <script src="js/cytoscape.js"></script>
-        <script src="js/ui.js"></script>
+                </div>
 
-        <script type="text/javascript">
+                <div id="edge-preview" class="card darken-1 bg-dark rounded mol-preview-card">
+                    <div class="row">
+                        <div class="col s6 m6">
+                            <h6>Source</h6>
+                            <img id="edge-src-image" class="mol-preview rounded" src="">
+                        </div>
+                        <div class="col s6 m6">
+                            <h6>Destination</h6>
+                            <img id="edge-dst-image" class="mol-preview rounded" src="">
+                        </div>
+                    </div>
 
-            // UI state
-            var cy;                         // Cytoscape instance
-            var currentLayout = 'fcose';    // Which layout engine we are currently using, see styling.js -> LAYOUT_ENGINES for options
+                    <div class="row">
+                        <div class="col s12 m12">
+                            <h6 id="edge-energy-forward"></h6>
+                            <h6 id="edge-energy-backward"></h6>
+                        </div>
+                    </div>
 
-            var pistonIncluded = true;
-            var mtdIncluded = true;
-            var gravityIncluded = true;
-            var smhIncluded = true;
-            var smh_gIncluded = true;
+                    <div class="row">
+                        <div class="col s12 m12" id="edge-tag-container">
 
-            var energy_threshold = null;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-            var selectedNode = null;
-            var selectedEdge = null;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/webcola/WebCola/cola.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-cola@2.4.0/cytoscape-cola.min.js"></script>
 
-            // UI Data Management
-            var dataset_nodes = [];     // ALL nodes in dataset
-            var dataset_edges = [];     // ALL edges in dataset
-            var cytoscape_nodes = [];   // Only nodes that are currently visible
-            var cytoscape_edges = [];   // Only edges that are currently visible
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+    <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
 
-            // Dataset
-            var server_data;
+    <!-- Order of these includes is important -->
+    <script src="js/styling.js"></script>
+    <script src="js/cytoscape.js"></script>
+    <script src="js/ui.js"></script>
 
-            // Data utilities
-            function get_incoming_edges(node_id) {
-                return dataset_edges.filter(function(edge) {
-                    return edge.data.target === node_id;
-                });
-            }
+    <script type="text/javascript">
 
-            function get_outgoing_edges(node_id) {
-                return dataset_edges.filter(function(edge) {
-                    return edge.data.source === node_id;
-                });
-            }
+        // UI state
+        var cy;                         // Cytoscape instance
+        var currentLayout = 'fcose';    // Which layout engine we are currently using, see styling.js -> LAYOUT_ENGINES for options
 
-            $(document).ready(function(){
-                $.getJSON('data/all_tools_graph_final.json', function(response) {
+        var pistonIncluded = true;
+        var mtdIncluded = true;
+        var gravityIncluded = true;
+        var smhIncluded = true;
+        var smh_gIncluded = true;
+        var proportional_thickness = false;
+        var show_fw_bk = false;
+        var pathway_coloring = true;
 
-                    console.log(response);
-                    server_data = response;
+        var energy_threshold = 200;
 
-                    var all_nodes = Object.values(response['Node1']).concat(Object.values(response['Node2']));
+        var selectedNode = null;
+        var selectedEdge = null;
 
-                    dataset_nodes = build_nodes(all_nodes);
-                    dataset_edges = build_edges(
-                        Object.values(response['Node1']),
-                        Object.values(response['Node2']),
-                        Object.values(response['Energy_forward (kcal/mol)']),
-                        Object.values(response['Energy_backward (kcal/mol)']),
-                        Object.values(response['Piston']),
-                        Object.values(response['MTD']),
-                        Object.values(response['Gravity']),
-                        Object.values(response['SMH']),
-                        Object.values(response['SMH-g'])
-                    );
+        // UI Data Management
+        var dataset_nodes = [];     // ALL nodes in dataset
+        var dataset_edges = [];     // ALL edges in dataset
+        var cytoscape_nodes = [];   // Only nodes that are currently visible
+        var cytoscape_edges = [];   // Only edges that are currently visible
 
-                    cy = init_cy(dataset_nodes, dataset_edges);
+        // Dataset
+        var server_data;
 
-                    cy.on('unselect', on_deselect);
+        // Data utilities
+        function get_incoming_edges(node_id) {
+            return dataset_edges.filter(function (edge) {
+                return edge.data.target === node_id;
+            });
+        }
 
-                    cy.on('select', function(event){
-                        if(event.target._private.group == 'nodes'){
-                            on_node_select(event.target);
-                        } else if(event.target._private.group == 'edges'){
-                            on_edge_select(event.target);
-                        }
-                    });
+        function get_outgoing_edges(node_id) {
+            return dataset_edges.filter(function (edge) {
+                return edge.data.source === node_id;
+            });
+        }
+
+        $(document).ready(function () {
+            $.getJSON('data/all_tools_graph_final.json', function (response) {
+
+                console.log(response);
+                server_data = response;
+
+                var all_nodes = Object.values(response['Node1']).concat(Object.values(response['Node2']));
+
+                dataset_nodes = build_nodes(all_nodes);
+                dataset_edges = build_edges(
+                    Object.values(response['Node1']),
+                    Object.values(response['Node2']),
+                    Object.values(response['Energy_forward (kcal/mol)']),
+                    Object.values(response['Energy_backward (kcal/mol)']),
+                    Object.values(response['Piston']),
+                    Object.values(response['MTD']),
+                    Object.values(response['Gravity']),
+                    Object.values(response['SMH']),
+                    Object.values(response['SMH-g'])
+                );
+
+                cy = init_cy(dataset_nodes, dataset_edges);
+
+                cy.on('unselect', on_deselect);
+
+                cy.on('select', function (event) {
+                    if (event.target._private.group == 'nodes') {
+                        on_node_select(event.target);
+                    } else if (event.target._private.group == 'edges') {
+                        on_edge_select(event.target);
+                    }
                 });
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
+
 </html>

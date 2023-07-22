@@ -34,7 +34,8 @@ function build_nodes(nodes) {
     var nodes = [];
     for (var i = 0; i < unique_nodes.length; i++) {
         nodes.push(
-            {data :
+            {
+                data:
                 {
                     'id': unique_nodes[i],
                     'label': unique_nodes[i]
@@ -50,7 +51,8 @@ function build_edges(sources, targets, energy_forward, energy_backward, piston, 
     var edges = [];
     for (var i = 0; i < sources.length; i++) {
         edges.push(
-            {data :
+            {
+                data:
                 {
                     'id': sources[i] + '-' + targets[i],
                     'source': sources[i],
@@ -78,38 +80,39 @@ function dfs_filter_edges(cytoscape_edges, cytoscape_nodes, energy_threshold, ro
     function dfs(node) {
         var connectedEdges = cytoscape_edges.filter(edge => ((edge.data.source == node._private.data.id) || (edge.data.target == node._private.data.id)));
         for (var edge of connectedEdges) {
-          if (edge.data.source == node._private.data.id) {
-            if(edge.data.energy_forward < energy_threshold) {
-                if(!energy_filtered.has(edge)) {
-                    energy_filtered.add(edge);
-                }
-              
+            if (edge.data.source == node._private.data.id) {
+                if (edge.data.energy_forward < energy_threshold) {
+                    if (!energy_filtered.has(edge)) {
+                        energy_filtered.add(edge);
+                    }
 
-                var nextNode = edge.data.target;
-                if (!visited.has(nextNode)) {
-                    visited.add(nextNode);
-                    dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
+
+                    var nextNode = edge.data.target;
+                    if (!visited.has(nextNode)) {
+                        visited.add(nextNode);
+                        dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
+                    }
                 }
             }
-          }
-          else if (edge.data.target == node._private.data.id) {
-            if(edge.data.energy_backward < energy_threshold) {
-                if(!energy_filtered.has(edge)) {
-                    energy_filtered.add(edge);
-                }
+            else if (edge.data.target == node._private.data.id) {
+                if (edge.data.energy_backward < energy_threshold) {
+                    if (!energy_filtered.has(edge)) {
+                        energy_filtered.add(edge);
+                    }
 
-                var nextNode = edge.data.source;
-                if (!visited.has(nextNode)) {
-                    visited.add(nextNode);
-                    dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
+                    var nextNode = edge.data.source;
+                    if (!visited.has(nextNode)) {
+                        visited.add(nextNode);
+                        dfs(cytoscape_nodes.filter(n => n._private.data.id == nextNode)[0]);
+                    }
                 }
             }
-          }
-    
+
         }
     }
 
     var rootNode = cytoscape_nodes.filter(node => node._private.data.id == rootId)[0];
+
     visited.add(rootNode.data.id);
     dfs(rootNode);
 
@@ -127,23 +130,23 @@ function filter_edges() {
 
     for (var i = 0; i < dataset_edges.length; i++) {
 
-        if(pistonIncluded && dataset_edges[i].data.classes.includes('Piston ')) {
+        if (pistonIncluded && dataset_edges[i].data.classes.includes('Piston ')) {
             cytoscape_edges.push(dataset_edges[i]);
         }
 
-        if(mtdIncluded && dataset_edges[i].data.classes.includes('MTD ')) {
+        if (mtdIncluded && dataset_edges[i].data.classes.includes('MTD ')) {
             cytoscape_edges.push(dataset_edges[i]);
         }
 
-        if(gravityIncluded && dataset_edges[i].data.classes.includes('GRAVITY ')) {
+        if (gravityIncluded && dataset_edges[i].data.classes.includes('GRAVITY ')) {
             cytoscape_edges.push(dataset_edges[i]);
         }
 
-        if(smhIncluded && dataset_edges[i].data.classes.includes('SMH ')) {
+        if (smhIncluded && dataset_edges[i].data.classes.includes('SMH ')) {
             cytoscape_edges.push(dataset_edges[i]);
         }
 
-        if(smh_gIncluded && dataset_edges[i].data.classes.includes('SMH_G ')) {
+        if (smh_gIncluded && dataset_edges[i].data.classes.includes('SMH_G ')) {
             cytoscape_edges.push(dataset_edges[i]);
         }
     }
