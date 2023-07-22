@@ -35,6 +35,18 @@ function on_energy_threshold_change(event) {
 function on_node_select(node) {
     var node_data = node._private.data; // Dont like accessing private members here, but no choice
 
+    // First we have to check if pathway search is running, because if so, then a node selection
+    // has special meaning, see pathwaysearch.js for more details
+    if (ps_source_select_active) {
+        did_select_source(node_data);
+        return;
+    }
+
+    if (ps_dest_select_active) {
+        did_select_dest(node_data);
+        return;
+    }
+
     selectedNode = node_data;
     selectedEdge = null;
 

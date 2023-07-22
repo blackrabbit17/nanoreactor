@@ -152,6 +152,24 @@
                     </div>
                 </div>
             </div>
+            <div class="col s12 m4">
+                <div id="pathfind-select" class="card darken-1 bg-dark rounded mol-preview-card">
+                    <div>
+                        <button id="ps_btn" class="btn" onclick="start_pathway_search()">Pathway Search</button>
+                    </div>
+
+                    <div class="row" style="margin:0;">
+                        <div class="col s6 m6" style="display:none; padding-top:20px;" id="ps_source">
+                            <h6 id="ps_source_header">Source</h6>
+                            <div id="ps_source_busy" style="display:none;" class="blob"></div>
+                        </div>
+                        <div class="col s6 m6" style="display:none; padding-top:20px;" id="ps_destination">
+                            <h6 id="ps_destination_header">Destination</h6>
+                            <div id="ps_destination_busy" style="display:none;" class="blob"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
@@ -168,6 +186,7 @@
     <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
 
     <!-- Order of these includes is important -->
+    <script src="js/pathwaysearch.js"></script>
     <script src="js/styling.js"></script>
     <script src="js/cytoscape.js"></script>
     <script src="js/ui.js"></script>
