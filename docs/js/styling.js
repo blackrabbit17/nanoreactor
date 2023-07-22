@@ -175,8 +175,8 @@ function computed_style(selectedNode, selecedEdge) {
             var weight = edge._private.data.weight;
             var width = 20 * weight / max_weight;
 
-            if (isNaN(width)) {
-                width = 0;
+            if (isNaN(width) || width < 1) {
+                width = 1;
             }
 
             comp_style.push({
