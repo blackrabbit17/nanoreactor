@@ -162,6 +162,16 @@ function computed_style(selectedNode, selecedEdge) {
         });
     }
 
+    if(show_fw_bk) {
+        comp_style.push({
+            selector: 'edge',
+            style: {
+              'curve-style': 'bezier',
+              'target-arrow-shape': 'triangle'
+            }
+        });
+    }
+
     if(proportional_thickness) {
 
         var max_weight = 0;

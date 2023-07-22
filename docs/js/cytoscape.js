@@ -54,7 +54,7 @@ function build_edges(sources, targets, energy_forward, energy_backward, piston, 
             {
                 data:
                 {
-                    'id': sources[i] + '-' + targets[i],
+                    'id': 's_forward_' + sources[i] + '-' + 't_forward_' + targets[i],
                     'source': sources[i],
                     'target': targets[i],
                     'weight': energy_forward[i],
@@ -64,6 +64,23 @@ function build_edges(sources, targets, energy_forward, energy_backward, piston, 
                 }
             }
         );
+
+        if(build_edges) {
+            edges.push(
+                {
+                    data:
+                    {
+                        'id': 's_backward_' + sources[i] + '-' + 't_backward_' + targets[i],
+                        'source': targets[i],
+                        'target': sources[i],
+                        'weight': energy_backward[i],
+                        'energy_forward': energy_forward[i],
+                        'energy_backward': energy_backward[i],
+                        'classes': edge_class_name(piston[i], mtd[i], gravity[i], smh[i], smh_g[i])
+                    }
+                }
+            );
+        }
     }
 
     return edges;

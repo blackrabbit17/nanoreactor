@@ -183,9 +183,9 @@
         var gravityIncluded = true;
         var smhIncluded = true;
         var smh_gIncluded = true;
-        var proportional_thickness = false;
-        var show_fw_bk = false;
-        var pathway_coloring = true;
+        var proportional_thickness = false;     // Proportional edge thickness (forward energy)
+        var show_fw_bk = false;                 // Show forward AND backward edges
+        var pathway_coloring = true;            // Color edges by pathway energy
 
         var energy_threshold = 200;
 
@@ -214,26 +214,30 @@
             });
         }
 
+        function rebuild_core_data() {
+
+            var all_nodes = Object.values(server_data['Node1']).concat(Object.values(server_data['Node2']));
+
+            dataset_nodes = build_nodes(all_nodes);
+            dataset_edges = build_edges(
+                Object.values(server_data['Node1']),
+                Object.values(server_data['Node2']),
+                Object.values(server_data['Energy_forward (kcal/mol)']),
+                Object.values(server_data['Energy_backward (kcal/mol)']),
+                Object.values(server_data['Piston']),
+                Object.values(server_data['MTD']),
+                Object.values(server_data['Gravity']),
+                Object.values(server_data['SMH']),
+                Object.values(server_data['SMH-g'])
+            );
+        }
+
         $(document).ready(function () {
             $.getJSON('data/all_tools_graph_final.json', function (response) {
 
-                console.log(response);
                 server_data = response;
 
-                var all_nodes = Object.values(response['Node1']).concat(Object.values(response['Node2']));
-
-                dataset_nodes = build_nodes(all_nodes);
-                dataset_edges = build_edges(
-                    Object.values(response['Node1']),
-                    Object.values(response['Node2']),
-                    Object.values(response['Energy_forward (kcal/mol)']),
-                    Object.values(response['Energy_backward (kcal/mol)']),
-                    Object.values(response['Piston']),
-                    Object.values(response['MTD']),
-                    Object.values(response['Gravity']),
-                    Object.values(response['SMH']),
-                    Object.values(response['SMH-g'])
-                );
+                rebuild_core_data();
 
                 cy = init_cy(dataset_nodes, dataset_edges);
 

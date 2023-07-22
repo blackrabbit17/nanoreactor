@@ -7,6 +7,9 @@ function on_toggle_proportional_thickness(event) {
 
 function on_toggle_fw_bk(event) {
     show_fw_bk = cb_checked(event);
+
+    rebuild_core_data();
+
     filter_edges();
     update_graph_styles();
 }
