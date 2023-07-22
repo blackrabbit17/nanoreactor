@@ -18,6 +18,7 @@ function reset_pathway_search() {
     $('#ps_source_mol_img').hide();
     $('#ps_destination_mol_img').hide();
     $('#ps_no_pathway').hide();
+    $('#ps_pathway').html('');
 
     rebuild_core_data();
     filter_edges();
@@ -105,6 +106,28 @@ function did_select_dest(node_data) {
 
         cy.edges().remove();
         cy.add(path_edges);
+
+        // Now build a table of the pathway
+        var table = '<table class="table table-striped table-bordered table-hover">';
+
+        table += '<thead><tr><th></th><th>Source</th><th>Destination</th><th>Energy Fw<br><small>kcal/mol</small></th></tr></thead>';
+        table += '<tbody>';
+
+        for (var i = 0; i < path_edges.length; i++) {
+            var edge = path_edges[i];
+
+            table += '<tr>';
+            table += '<td>' + i + '</td>';
+            table += '<td><img class="mol-preview-mini rounded" src="img/' + edge.data.source + '.png" /></td>';
+            table += '<td><img class="mol-preview-mini rounded" src="img/' + edge.data.target + '.png" /></td>';
+            table += '<td>' + edge.data.energy_forward + '</td>';
+            table += '</tr>';
+        }
+
+        table += '</tbody>';
+        table += '</table>';
+
+        $('#ps_pathway').html(table);
     }
 }
 
