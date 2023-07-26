@@ -142,7 +142,7 @@ function default_style() {
 
 
 
-function computed_style(selectedNode, selecedEdge) {
+function computed_style(selectedNode, selectedEdge) {
 
     var comp_style = [];
 
@@ -153,7 +153,7 @@ function computed_style(selectedNode, selecedEdge) {
         });
     }
 
-    if(selecedEdge) {
+    if(selectedEdge) {
         comp_style.push({
             'selector': '[id = "' + selectedEdge.id + '"]',
             'style': {
@@ -183,12 +183,14 @@ function computed_style(selectedNode, selecedEdge) {
 
         cy.edges().forEach(function(edge) {
             var weight = edge._private.data.weight;
-            var width = 20 * weight / max_weight;
-
-            if (isNaN(width) || width < 1) {
-                width = 1;
+ 
+            var width = 12 * 2.71828 ** (-weight/20);
+            if (isNaN(width) || width < 1.5) {
+                var width = 1.5;
             }
-
+            if (edge._private.data.id.includes("backward") && !show_fw_bk) {
+                var width = 0;
+            }
             comp_style.push({
                 'selector': '[id = "' + edge._private.data.id + '"]',
                 'style': {
